@@ -1,0 +1,9 @@
+id,planification_id,exercice_id,set_detail
+1,1,1,3
+2,1,2,4
+3,2,3,2
+4,3,2,5
+5,4,1,3
+6,4,2,3
+7,4,3,2
+8,1,1,"{""series"": 2, ""contenido"": [{""numero"": 1, ""peso_plan"": 15.0, ""repeticiones"": 6, ""rpe"": 8}, {""numero"": 2, ""peso_plan"": 15.0, ""repeticiones"": 6, ""rpe"": 10}]}"
