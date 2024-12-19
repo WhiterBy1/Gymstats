@@ -11,7 +11,6 @@ PLANIFICATIONS_FILE = os.path.join(DB_FOLDER, "planifications.csv")
 PLANIFICATION_CONTENT_FILE = os.path.join(DB_FOLDER, "planification_content.csv")
 EXERCISES_FILE = os.path.join(DB_FOLDER, "exercises.csv")
 
-
 # Función para inicializar archivos CSV con datos iniciales
 def inicializar_archivos():
     if not os.path.exists(DB_FOLDER):
@@ -36,7 +35,6 @@ def inicializar_archivos():
     escribir_csv(PLANIFICATION_CONTENT_FILE, planification_content)
     escribir_csv(EXERCISES_FILE, exercises)
 
-
 # Función para escribir en un archivo CSV
 def escribir_csv(filename, data):
     fieldnames = data[0].keys() if data else []
@@ -46,7 +44,6 @@ def escribir_csv(filename, data):
             writer.writeheader()
             writer.writerows(data)
 
-
 # Función para leer un archivo CSV
 def leer_csv(filename):
     if not os.path.exists(filename):
@@ -54,19 +51,6 @@ def leer_csv(filename):
     with open(filename, mode='r', newline='') as file:
         reader = csv.DictReader(file)
         return list(reader)
-
-
-# Función para validar si un usuario existe
-def validar_usuario(user_id):
-    users = leer_csv(USERS_FILE)
-    return any(int(user["id"]) == int(user_id) for user in users)
-
-
-# Función para validar si un ejercicio existe
-def validar_ejercicio(exercise_id):
-    exercises = leer_csv(EXERCISES_FILE)
-    return any(int(ex["id"]) == int(exercise_id) for ex in exercises)
-
 
 # Función para construir un set_detail (JSON) detallado
 def construir_set_detail():
@@ -88,6 +72,27 @@ def construir_set_detail():
 
     return json.dumps({"series": series, "contenido": contenido})
 
+# Función para obtener o crear un ejercicio
+def obtener_o_crear_ejercicio():
+    exercises = leer_csv(EXERCISES_FILE)
+    exercise_name = input("Ingrese el nombre del ejercicio: ").strip()
+
+    # Buscar el ejercicio por nombre
+    for exercise in exercises:
+        if exercise["name"].lower() == exercise_name.lower():
+            print(f"Ejercicio encontrado: {exercise['name']} (ID: {exercise['id']})")
+            return exercise["id"]
+
+    # Si no se encuentra, crear uno nuevo
+    new_id = max([int(ex["id"]) for ex in exercises], default=0) + 1
+    category = input("Ingrese la categoría del ejercicio (por ejemplo, Pecho, Cuadriceps): ").strip()
+
+    new_exercise = {"id": new_id, "name": exercise_name, "category": category}
+    exercises.append(new_exercise)
+    escribir_csv(EXERCISES_FILE, exercises)
+
+    print(f"Nuevo ejercicio agregado: {exercise_name} (ID: {new_id})")
+    return new_id
 
 # Función para agregar contenido a una planificación
 def AgregarContenido(planification_id):
@@ -95,14 +100,7 @@ def AgregarContenido(planification_id):
     planification_content = leer_csv(PLANIFICATION_CONTENT_FILE)
 
     while True:
-        exercise_id = input("Ingrese el ID del ejercicio (0 para salir): ")
-        if exercise_id == "0":
-            break
-
-        if not validar_ejercicio(exercise_id):
-            print("El ID del ejercicio no existe. Inténtelo de nuevo.")
-            continue
-
+        exercise_id = obtener_o_crear_ejercicio()
         set_detail = construir_set_detail()
 
         new_id = max([int(row["id"]) for row in planification_content], default=0) + 1
@@ -116,6 +114,9 @@ def AgregarContenido(planification_id):
         escribir_csv(PLANIFICATION_CONTENT_FILE, planification_content)
         print("¡Contenido agregado exitosamente!\n")
 
+        continuar = input("¿Desea agregar otro ejercicio? (s/n): ").lower()
+        if continuar != 's':
+            break
 
 # Función para agregar una nueva planificación
 def AgregarPlanificacion():
@@ -124,7 +125,8 @@ def AgregarPlanificacion():
     user_id = input("Ingrese el ID del usuario: ")
 
     # Validar si el usuario existe
-    if not validar_usuario(user_id):
+    users = leer_csv(USERS_FILE)
+    if not any(user["id"] == user_id for user in users):
         print("El ID de usuario no existe. Inténtelo de nuevo.\n")
         return
 
@@ -150,7 +152,6 @@ def AgregarPlanificacion():
     if opcion == 's':
         AgregarContenido(str(new_id))
 
-
 # Función principal
 def main():
     if not os.path.exists(PLANIFICATIONS_FILE):
@@ -173,7 +174,6 @@ def main():
             break
         else:
             print("Opción inválida, intente nuevamente.\n")
-
 
 # Ejecutar el programa
 if __name__ == "__main__":
