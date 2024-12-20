@@ -1,8 +1,9 @@
 # Función para agregar una nueva planificación
 import json
 from validation.const import PLANIFICATION_CONTENT_FILE, PLANIFICATIONS_FILE
-from db.dbFuntions import leer_csv, incentar_db
+from db.dbFuntions import leer_csv, incentar_db, obtener_columnas
 from validation.validaciones import validar_ejercicio, validar_usuario
+
 
 #Funcion para agregar planificaciones
 def AgregarPlanificacion():
@@ -28,7 +29,6 @@ def AgregarPlanificacion():
 # Función para agregar contenido a una planificación
 def AgregarContenido(planification_id):
     print("\n--- Agregar Contenido a la Planificación ---")
-    planification_content = leer_csv(PLANIFICATION_CONTENT_FILE)
 
     while True:
         exercise_id = input("Ingrese el ID del ejercicio (0 para salir): ")
@@ -63,3 +63,6 @@ def construir_set_detail():
         })
 
     return json.dumps({"series": series, "contenido": contenido})
+
+def VisualizarPlanificaciones():
+    obtener_columnas(PLANIFICATIONS_FILE, ["routine_name", "status", "date"])
