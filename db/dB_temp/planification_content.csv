@@ -1,0 +1,4 @@
+id,planification_id,exercice_id,set_detail
+8,1,1,"{""series"": 2, ""contenido"": [{""numero"": 1, ""peso_plan"": 15.0, ""repeticiones"": 6, ""rpe"": 8}, {""numero"": 2, ""peso_plan"": 15.0, ""repeticiones"": 6, ""rpe"": 10}]}"
+9,6,2,"{""series"": 3, ""contenido"": [{""numero"": 1, ""peso_plan"": 15.0, ""repeticiones"": 5, ""rpe"": 5}, {""numero"": 2, ""peso_plan"": 80.0, ""repeticiones"": 1, ""rpe"": 10}, {""numero"": 3, ""peso_plan"": 100.0, ""repeticiones"": 2, ""rpe"": 10}]}"
+10,7,2,"{""series"": 3, ""contenido"": [{""numero"": 1, ""peso_plan"": 15.0, ""repeticiones"": 6, ""rpe"": 5}, {""numero"": 2, ""peso_plan"": 56.0, ""repeticiones"": 5, ""rpe"": 12}, {""numero"": 3, ""peso_plan"": 12.0, ""repeticiones"": 56, ""rpe"": 56}]}"

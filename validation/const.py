@@ -1,6 +1,6 @@
 import os
 # Carpeta para almacenar los archivos CSV
-DB_FOLDER = "dB_temp"
+DB_FOLDER = "db/dB_temp"
 
 # Rutas de los archivos CSV
 USERS_FILE = os.path.join(DB_FOLDER, "users.csv")

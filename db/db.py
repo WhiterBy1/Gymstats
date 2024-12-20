@@ -1,6 +1,6 @@
 import os
-from dbFuntions import escribir_csv
-from const import DB_FOLDER, EXERCISES_FILE, PLANIFICATION_CONTENT_FILE, PLANIFICATIONS_FILE, USERS_FILE 
+from db.dbFuntions import escribir_csv
+from validation.const import DB_FOLDER, EXERCISES_FILE, PLANIFICATION_CONTENT_FILE, PLANIFICATIONS_FILE, USERS_FILE 
 def inicializar_archivos():
     if not os.path.exists(DB_FOLDER):
         os.makedirs(DB_FOLDER)

@@ -1,2 +1,0 @@
-id,planification_id,exercice_id,set_detail
-8,1,1,"{""series"": 2, ""contenido"": [{""numero"": 1, ""peso_plan"": 15.0, ""repeticiones"": 6, ""rpe"": 8}, {""numero"": 2, ""peso_plan"": 15.0, ""repeticiones"": 6, ""rpe"": 10}]}"

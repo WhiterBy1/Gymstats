@@ -1,9 +1,8 @@
 # Función para agregar una nueva planificación
 import json
-from const import PLANIFICATION_CONTENT_FILE, PLANIFICATIONS_FILE
-from dbFuntions import escribir_csv, leer_csv
-from planificationLogic import AgregarContenido, construir_set_detail
-from validaciones import validar_ejercicio, validar_usuario
+from validation.const import PLANIFICATION_CONTENT_FILE, PLANIFICATIONS_FILE
+from db.dbFuntions import leer_csv, incentar_db
+from validation.validaciones import validar_ejercicio, validar_usuario
 
 #Funcion para agregar planificaciones
 def AgregarPlanificacion():
@@ -17,26 +16,14 @@ def AgregarPlanificacion():
         return
 
     routine_name = input("Ingrese el nombre de la rutina: ")
-    planifications = leer_csv(PLANIFICATIONS_FILE)
-
-    # Calcular el nuevo ID
-    new_id = max([int(row["id"]) for row in planifications], default=0) + 1
-
-    planifications.append({
-        "id": new_id,
-        "date": date,
-        "user_id": user_id,
-        "status": False,
-        "routine_name": routine_name
-    })
-
-    escribir_csv(PLANIFICATIONS_FILE, planifications)
+    Planification_id = incentar_db(PLANIFICATIONS_FILE, ["date","user_id", "status", "routine_name"], [date, user_id, False, routine_name],IdNeeded=True)
+    
     print("¡Planificación agregada exitosamente!\n")
 
     # Preguntar si desea agregar contenido a la planificación
     opcion = input("¿Desea agregar contenido a esta planificación? (s/n): ").lower()
     if opcion == 's':
-        AgregarContenido(str(new_id))
+        AgregarContenido(str(Planification_id))
 
 # Función para agregar contenido a una planificación
 def AgregarContenido(planification_id):
@@ -53,16 +40,8 @@ def AgregarContenido(planification_id):
             continue
 
         set_detail = construir_set_detail()
-
-        new_id = max([int(row["id"]) for row in planification_content], default=0) + 1
-        planification_content.append({
-            "id": new_id,
-            "planification_id": planification_id,
-            "exercice_id": exercise_id,
-            "set_detail": set_detail
-        })
-
-        escribir_csv(PLANIFICATION_CONTENT_FILE, planification_content)
+        incentar_db(PLANIFICATION_CONTENT_FILE, ["planification_id","exercice_id", "set_detail"], [planification_id, exercise_id, set_detail])
+        
         print("¡Contenido agregado exitosamente!\n")
 
 # Función para construir un set_detail (JSON) detallado

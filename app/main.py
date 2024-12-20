@@ -1,13 +1,14 @@
 import os
-from const import PLANIFICATIONS_FILE
-from db import inicializar_archivos
-from mainFuntions import AgregarContenido, AgregarPlanificacion
+from validation.const import PLANIFICATIONS_FILE
+from db.db import inicializar_archivos
+from app.mainFuntions import AgregarContenido, AgregarPlanificacion
+#
 
 # Función principal
 def main():
     if not os.path.exists(PLANIFICATIONS_FILE):
         inicializar_archivos()
-
+    
     while True:
         print("Seleccione una opción:")
         print("1. Agregar Planificación")

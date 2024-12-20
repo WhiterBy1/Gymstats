@@ -1,6 +1,6 @@
 # Función para validar si un usuario existe
-from const import EXERCISES_FILE, USERS_FILE
-from dbFuntions import leer_csv
+from validation.const import EXERCISES_FILE, USERS_FILE
+from db.dbFuntions import leer_csv
 
 
 def validar_usuario(user_id):
