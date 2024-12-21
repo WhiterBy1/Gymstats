@@ -1,8 +1,11 @@
 #si genera problemas con las importaciones ejecutar: set PYTHONPATH=%CD%
 import os
+import config
 from validation.const import PLANIFICATIONS_FILE
 from db.db import inicializar_archivos
 from app.mainFuntions import AgregarContenido, AgregarPlanificacion, VisualizarPlanificaciones
+
+
 
 
 # Función principal
@@ -30,7 +33,6 @@ def main():
             break
         else:
             print("Opción inválida, intente nuevamente.\n")
-
 
 # Ejecutar el programa
 if __name__ == "__main__":

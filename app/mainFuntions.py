@@ -2,7 +2,7 @@
 import json
 from validation.const import PLANIFICATION_CONTENT_FILE, PLANIFICATIONS_FILE
 from db.dbFuntions import leer_csv, incentar_db, obtener_columnas
-from validation.validaciones import validar_ejercicio, validar_usuario
+from validation.validaciones import validar_ejercicio, validar_usuario, permitir_entre
 
 
 #Funcion para agregar planificaciones
@@ -53,7 +53,7 @@ def construir_set_detail():
         print(f"\n--- Serie {i} ---")
         peso_plan = float(input("Ingrese el peso planificado (kg): "))
         repeticiones = int(input("Ingrese el número de repeticiones: "))
-        rpe = int(input("Ingrese el RPE (1-10): "))
+        rpe = permitir_entre(int(input("Ingrese el RPE (1-10): ")))
 
         contenido.append({
             "numero": i,
@@ -64,5 +64,6 @@ def construir_set_detail():
 
     return json.dumps({"series": series, "contenido": contenido})
 
+# Función para visualizar las planificaciones del usuario actual
 def VisualizarPlanificaciones():
     obtener_columnas(PLANIFICATIONS_FILE, ["routine_name", "status", "date"])

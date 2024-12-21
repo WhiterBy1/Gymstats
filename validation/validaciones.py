@@ -12,3 +12,6 @@ def validar_usuario(user_id):
 def validar_ejercicio(exercise_id):
     exercises = leer_csv(EXERCISES_FILE)
     return any(int(ex["id"]) == int(exercise_id) for ex in exercises)
+
+def permitir_entre():
+    pass
