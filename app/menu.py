@@ -1,10 +1,11 @@
 import os
 from validation.const import PLANIFICATIONS_FILE
 from db.db import inicializar_archivos
-from app.mainFuntions import AgregarContenido, AgregarPlanificacion, VisualizarPlanificaciones
+from app.planification import AgregarContenido, AgregarPlanificacion, VisualizarPlanificaciones
 
 #funcion para crear menus
 def crear_menu(opciones:list[str], funciones:list ):
+    
     while True:
         print("---------------------")
         print("Seleccione una opción:")
@@ -18,8 +19,11 @@ def crear_menu(opciones:list[str], funciones:list ):
         elif opcion == str(len(opciones)+1):
             print("Adiós!")
             break
+        else:
+            print("\nOpción inválida, intente nuevamente.\n")
 
 def gestion_planificaciones_menu():
+    
     crear_menu(["Agregar Planificación",
                 "Agregar Contenido a una Planificación",
                 "Visualizar Planificaciones",
@@ -29,6 +33,9 @@ def gestion_planificaciones_menu():
                     AgregarContenido,
                     VisualizarPlanificaciones,
                 ])
+
+
+
 def mainmenu():
     if not os.path.exists(PLANIFICATIONS_FILE):
         inicializar_archivos()

@@ -1,7 +1,7 @@
 # Función para agregar una nueva planificación
 import json
 from validation.const import PLANIFICATION_CONTENT_FILE, PLANIFICATIONS_FILE
-from db.dbFuntions import leer_csv, incentar_db, obtener_columnas
+from db.dbFuntions import incentar_db, obtener_columnas
 from validation.validaciones import validar_ejercicio, validar_usuario, permitir_entre
 
 
@@ -68,3 +68,4 @@ def construir_set_detail():
 # Función para visualizar las planificaciones del usuario actual
 def VisualizarPlanificaciones():
     obtener_columnas(PLANIFICATIONS_FILE, ["routine_name", "status", "date"])
+    input("Presiona enter para dejar de ver...\n")
