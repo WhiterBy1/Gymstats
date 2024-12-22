@@ -1,7 +1,7 @@
 import os
 from validation.const import PLANIFICATIONS_FILE
 from db.db import inicializar_archivos
-from app.planification import AgregarContenido, AgregarPlanificacion, VisualizarPlanificaciones
+from app.views.planification import AgregarContenido, AgregarPlanificacion, VisualizarPlanificaciones
 
 #funcion para crear menus
 def crear_menu(opciones:list[str], funciones:list ):

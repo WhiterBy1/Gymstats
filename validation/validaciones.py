@@ -15,12 +15,3 @@ def validar_ejercicio(exercise_id):
 
 def permitir_entre():
     pass
-
-def capturar_todas_exepciones(funtion):
-    while True:
-        try:
-            return funtion()
-        except Exception as e:
-            print(f"Ocurrió un error: {e}")
-            input("Presione enter para continuar...")
-            
