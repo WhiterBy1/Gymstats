@@ -1,63 +1,162 @@
 # Backend - Gymstats
 
 ## **Descripción General**
-El backend de Gymstats está desarrollado en FastAPI y utilizará Supabase como base de datos. Este componente gestiona la lógica del negocio, las validaciones y la comunicación con el frontend.
+El backend de Gymstats está construido con FastAPI para gestionar la lógica de negocio, realizar validaciones y facilitar la comunicación con el frontend. Utiliza Supabase como base de datos para garantizar una integración fluida, un almacenamiento seguro y escalable, y soporte para autenticación.
 
 ---
 
-## **Endpoints Principales**
-1. **Usuarios**:
-   - Registro de nuevos usuarios.
-   - Autenticación y autorización.
-   - Gestión de datos del perfil.
-2. **Planificaciones**:
-   - Crear, editar y eliminar planificaciones.
-   - Consultar planificaciones por usuario, fecha o rango de fechas.
-3. **Ejercicios**:
-   - Crear, editar y eliminar ejercicios.
-   - Consultar ejercicios disponibles (predefinidos o personalizados).
-4. **Progreso**:
-   - Registrar datos de entrenamiento por serie.
-   - Consultar progreso de un ejercicio o planificación específica.
+## **Características Principales**
+
+### **1. Gestión de Usuarios**
+- **Endpoints**:
+  - Registro de nuevos usuarios.
+  - Inicio de sesión (login) y cierre de sesión (logout).
+  - Recuperación y cambio de contraseña.
+  - Actualización de datos del perfil.
+- **Validaciones**:
+  - Email único y con formato válido.
+  - Contraseña con al menos 8 caracteres, una mayúscula, un número y un carácter especial.
+  - Tokens para autenticación (JWT o alternativa similar).
+- **Sugerencias de Implementación**:
+  - Usar Supabase para la autenticación nativa y encriptar contraseñas con herramientas como `bcrypt`.
+  - Implementar middleware para gestionar sesiones y permisos (ej. usuario autenticado, roles).
+
+---
+
+### **2. Gestión de Planificaciones**
+- **Endpoints**:
+  - Crear nuevas planificaciones.
+  - Consultar planificaciones por fecha, rango de fechas o estado.
+  - Editar el nombre o estado de una planificación.
+  - Eliminar planificaciones.
+- **Validaciones**:
+  - Cada planificación debe estar vinculada a un usuario.
+  - Una planificación por día por usuario.
+  - Fecha válida (no permitir fechas pasadas salvo explícito retroactivo).
+- **Sugerencias de Implementación**:
+  - Definir un modelo de datos para planificaciones con campos como:
+    - `id`, `user_id`, `fecha`, `nombre`, `estado` (pendiente/completado).
+  - Utilizar consultas parametrizadas para filtrar por usuario y fecha en Supabase.
+  - Crear una capa de servicios para gestionar la lógica de negocio, evitando duplicación en controladores.
+
+---
+
+### **3. Gestión de Ejercicios**
+- **Endpoints**:
+  - Crear nuevos ejercicios.
+  - Editar o eliminar ejercicios existentes.
+  - Consultar ejercicios por usuario o categoría.
+  - Recuperar una lista inicial de ejercicios predefinidos (si se decide incluirlos).
+- **Validaciones**:
+  - Nombres únicos por usuario.
+  - Categoría válida (grupos musculares predefinidos).
+  - Opcional: Validar nivel de importancia si se utiliza.
+- **Sugerencias de Implementación**:
+  - Almacenar una lista inicial de ejercicios predefinidos en una tabla separada.
+  - Diseñar el modelo con campos como `id`, `user_id`, `nombre`, `categoría`, `importancia`.
+  - Implementar un endpoint para que el usuario pueda clonar ejercicios predefinidos a su cuenta.
+
+---
+
+### **4. Seguimiento de Progreso**
+- **Endpoints**:
+  - Registrar datos de progreso para una planificación específica:
+    - Peso utilizado.
+    - Repeticiones realizadas.
+    - Tiempo de descanso.
+    - RPE.
+  - Consultar progreso de ejercicios individuales o de una planificación completa.
+  - Marcar ejercicios y planificaciones como completados.
+- **Validaciones**:
+  - Peso mayor a 0.
+  - RPE entre 1 y 10.
+  - Series y repeticiones mayores a 0.
+  - Formato JSON válido para los sets.
+- **Sugerencias de Implementación**:
+  - Utilizar un modelo con campos como:
+    - `id`, `planificacion_id`, `ejercicio_id`, `datos_set` (almacenado como JSON).
+  - Implementar validaciones personalizadas para verificar la integridad de los datos JSON.
+  - Usar tareas asíncronas para calcular automáticamente el progreso general de la planificación.
+
+---
+
+### **5. Análisis de Datos y Estadísticas**
+- **Endpoints**:
+  - Consultar métricas clave:
+    - Peso promedio por ejercicio.
+    - RPE promedio por ejercicio.
+    - Fuerza acumulada total.
+    - Comparación entre planificación y ejecución.
+  - Alertas automáticas basadas en patrones de entrenamiento.
+- **Validaciones**:
+  - Fechas válidas para filtros.
+  - Datos consistentes con los registros existentes.
+- **Sugerencias de Implementación**:
+  - Crear procedimientos almacenados en Supabase para calcular métricas complejas.
+  - Utilizar librerías como `pandas` para el procesamiento avanzado de datos.
+  - Implementar websockets o colas de mensajes para actualizar estadísticas en tiempo real.
+
+---
+
+## **Estructura de la Base de Datos**
+
+### **1. Tabla: Usuarios**
+| Campo           | Tipo          | Descripción                                  |
+|------------------|---------------|----------------------------------------------|
+| `id`            | UUID          | Identificador único del usuario.            |
+| `email`         | String        | Email del usuario, único.                   |
+| `password_hash` | String        | Contraseña encriptada.                      |
+| `user_name`     | String        | Nombre del usuario.                         |
+
+### **2. Tabla: Planificaciones**
+| Campo           | Tipo          | Descripción                                  |
+|------------------|---------------|----------------------------------------------|
+| `id`            | UUID          | Identificador único de la planificación.    |
+| `user_id`       | UUID          | Relación con el usuario.                    |
+| `fecha`         | Date          | Fecha de la planificación.                  |
+| `nombre`        | String        | Nombre de la planificación.                 |
+| `estado`        | String        | Pendiente o completada.                     |
+
+### **3. Tabla: Ejercicios**
+| Campo           | Tipo          | Descripción                                  |
+|------------------|---------------|----------------------------------------------|
+| `id`            | UUID          | Identificador único del ejercicio.          |
+| `user_id`       | UUID          | Relación con el usuario (si es personalizado).|
+| `nombre`        | String        | Nombre del ejercicio.                       |
+| `categoría`     | String        | Grupo muscular al que afecta.               |
+| `importancia`   | Integer       | Nivel de aislamiento (opcional).            |
+
+### **4. Tabla: Contenido de planificacion**
+| Campo           | Tipo          | Descripción                                  |
+|------------------|---------------|----------------------------------------------|
+| `id`            | UUID          | Identificador único del progreso.           |
+| `planificacion_id` | UUID       | Relación con la planificación.              |
+| `ejercicio_id`  | UUID          | Relación con el ejercicio.                  |
+| `set_detail`     | JSON          | Detalles de las series (peso, repeticiones, RPE). |
 
 ---
 
 ## **Validaciones Críticas**
-1. **Usuarios**:
-   - Email único y formato válido.
-   - Contraseñas encriptadas para seguridad.
-2. **Planificaciones**:
-   - Una planificación por día por usuario.
-   - Validar fechas (no se pueden planificar fechas pasadas, salvo para registro retroactivo explícito).
-3. **Ejercicios**:
-   - Nombres únicos por usuario.
-   - Validación de categorías y niveles de importancia.
-4. **Datos de Progreso**:
-   - RPE entre 1 y 10.
-   - Series mayores a 0.
-   - Validación de sets en formato JSON.
-
----
-
-## **Principios de Desarrollo**
-- Código modular y reutilizable siguiendo principios SOLID.
-- Validaciones centralizadas para minimizar duplicación.
-- Endpoints RESTful con respuestas claras y detalladas.
-
----
-
-## **Base de Datos**
-- Tablas principales:
-  - **Usuarios**: ID, email, contraseña, nombre.
-  - **Planificaciones**: ID, usuario_id, fecha, nombre, estado.
-  - **Ejercicios**: ID, nombre, categoría, importancia.
-  - **Progreso**: planificación_id, ejercicio_id, datos del set (JSON).
-- Integración con Supabase para gestionar autenticación y almacenamiento.
+1. **General**:
+   - IDs deben ser válidos y existir en la base de datos.
+   - Campos obligatorios no pueden ser nulos o vacíos.
+2. **Usuarios**:
+   - Email único y con formato válido.
+   - Contraseñas encriptadas y seguras.
+3. **Planificaciones**:
+   - Una planificación por fecha por usuario.
+   - Estado limitado a valores válidos (pendiente, completada).
+4. **Progreso**:
+   - Series y repeticiones mayores a 0.
+   - RPE dentro del rango de 1 a 10.
+   - JSON de sets válido según el esquema definido.
 
 ---
 
 ## **Escalabilidad**
 El backend está diseñado para:
-- Añadir nuevos endpoints sin alterar los existentes.
-- Extender las validaciones y el modelo de datos.
-- Facilitar la conexión con servicios externos (ej. analíticas avanzadas).
+- Añadir nuevas funcionalidades sin afectar las existentes.
+- Escalar horizontalmente mediante microservicios.
+- Integrarse con servicios externos para análisis avanzados.
+
+
