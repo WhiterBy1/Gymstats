@@ -74,6 +74,13 @@ Gymstats es una aplicación web diseñada para planificar, registrar y analizar 
    - Ningún campo requerido puede estar vacío.
 
 ---
+## Documentación Relacionada
+
+- [Frontend - Detalles y Funcionalidades](frontend/README-frontend.md)
+- [Backend - Detalles y Funcionalidades](backend/README-backend.md)
+
+Por favor, consulta estos archivos para obtener información detallada sobre cada módulo del proyecto.
+---
 
 ## **Escalabilidad**
 El proyecto está diseñado para ser escalable y adaptable a nuevas funcionalidades:
