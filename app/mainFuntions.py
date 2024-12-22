@@ -27,7 +27,8 @@ def AgregarPlanificacion():
         AgregarContenido(str(Planification_id))
 
 # Función para agregar contenido a una planificación
-def AgregarContenido(planification_id):
+def AgregarContenido():
+    planification_id = input("Ingrese el ID de la planificación: ")
     print("\n--- Agregar Contenido a la Planificación ---")
 
     while True:
