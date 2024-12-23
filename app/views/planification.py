@@ -1,7 +1,7 @@
 # Función para agregar una nueva planificación
 import json
 from validation.const import PLANIFICATION_CONTENT_FILE, PLANIFICATIONS_FILE
-from db.dbFuntions import leer_csv, incentar_db, obtener_columnas
+from db.dbFuntions import incentar_db, obtener_columnas
 from validation.validaciones import validar_ejercicio, validar_usuario, permitir_entre
 
 
@@ -24,10 +24,11 @@ def AgregarPlanificacion():
     # Preguntar si desea agregar contenido a la planificación
     opcion = input("¿Desea agregar contenido a esta planificación? (s/n): ").lower()
     if opcion == 's':
-        AgregarContenido(str(Planification_id))
+        AgregarContenido()
 
 # Función para agregar contenido a una planificación
-def AgregarContenido(planification_id):
+def AgregarContenido():
+    planification_id = input("Ingrese el ID de la planificación: ")
     print("\n--- Agregar Contenido a la Planificación ---")
 
     while True:
@@ -67,3 +68,4 @@ def construir_set_detail():
 # Función para visualizar las planificaciones del usuario actual
 def VisualizarPlanificaciones():
     obtener_columnas(PLANIFICATIONS_FILE, ["routine_name", "status", "date"])
+    input("Presiona enter para dejar de ver...\n")
