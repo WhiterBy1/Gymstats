@@ -2,8 +2,6 @@ import csv
 import os
 import pandas as pd
 
-from validation.const import EXERCISES_FILE
-
 #funcion de calcular id
 def calcular_id(table: list):
     return max([int(row["id"]) for row in table], default=0) + 1

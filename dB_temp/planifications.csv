@@ -1,9 +1,0 @@
-id,date,user_id,status,routine_name
-1,2024-06-01,1,False,Full Body
-2,2024-06-02,2,True,Cardio
-3,2024-06-03,1,False,Strength
-4,2024-05-20,2,False,Pecho espalda
-5,2022-12-12,1,False,pecho 
-6,2022-10-12,3,False,pecho
-7,2010-09-08,1,False,0
-
