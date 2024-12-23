@@ -53,7 +53,7 @@ def construir_set_detail():
         print(f"\n--- Serie {i} ---")
         peso_plan = float(input("Ingrese el peso planificado (kg): "))
         repeticiones = int(input("Ingrese el número de repeticiones: "))
-        rpe = permitir_entre(int(input("Ingrese el RPE (1-10): ")))
+        rpe = int(input("Ingrese el RPE (1-10): "))
 
         contenido.append({
             "numero": i,
