@@ -6,3 +6,4 @@ id,date,user_id,status,routine_name
 5,2022-12-12,1,False,pecho 
 6,2022-10-12,3,False,pecho
 7,2010-09-08,1,False,0
+

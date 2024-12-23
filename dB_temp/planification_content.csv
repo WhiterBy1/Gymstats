@@ -11,3 +11,4 @@ id,planification_id,exercice_id,set_detail
 10,1,1,"{""series"": 0, ""contenido"": []}"
 11,6,1,"{""series"": 2, ""contenido"": [{""numero"": 1, ""peso_plan"": 10.0, ""repeticiones"": 10, ""rpe"": 10}, {""numero"": 2, ""peso_plan"": 2.0, ""repeticiones"": 3, ""rpe"": 4}]}"
 12,5,4,"{""series"": 2, ""contenido"": [{""numero"": 1, ""peso_plan"": 10.0, ""repeticiones"": 10, ""rpe"": 2}, {""numero"": 2, ""peso_plan"": 20.0, ""repeticiones"": 0, ""rpe"": 0}]}"
+
