@@ -24,7 +24,7 @@ def AgregarPlanificacion():
     # Preguntar si desea agregar contenido a la planificación
     opcion = input("¿Desea agregar contenido a esta planificación? (s/n): ").lower()
     if opcion == 's':
-        AgregarContenido(str(Planification_id))
+        AgregarContenido()
 
 # Función para agregar contenido a una planificación
 def AgregarContenido():
@@ -54,7 +54,7 @@ def construir_set_detail():
         print(f"\n--- Serie {i} ---")
         peso_plan = float(input("Ingrese el peso planificado (kg): "))
         repeticiones = int(input("Ingrese el número de repeticiones: "))
-        rpe = permitir_entre(int(input("Ingrese el RPE (1-10): ")))
+        rpe = int(input("Ingrese el RPE (1-10): "))
 
         contenido.append({
             "numero": i,

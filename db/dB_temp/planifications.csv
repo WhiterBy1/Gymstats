@@ -6,3 +6,7 @@ id,date,user_id,status,routine_name
 5,2024-08-25,1,False,Pecho
 6,2024-08-10,2,False,JuanitoAlimaña
 7,2024-08-23,1,False,Piernas
+8,2004,1,False,Piernas
+9,2024-08-23,2,False,Pierna
+10,3024,1,False,TrenSuperior
+11,20025,2,False,Superior
