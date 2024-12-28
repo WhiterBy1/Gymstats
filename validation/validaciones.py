@@ -28,7 +28,7 @@ def validar_rango(valor, minimo, maximo, mensaje_error):
 
 
 # Validar entradas enteras
-def validar_entero(valor, mensaje_error):
+def validar_entero(valor:str, mensaje_error):
     if not valor.isdigit():
         print(f"{mensaje_error}: El valor debe ser un número entero.")
         return False
@@ -44,7 +44,7 @@ def validar_cadena_no_vacia(cadena, mensaje_error):
 
 
 # Validar sí/no
-def validar_si_no(respuesta, mensaje_error):
+def validar_si_no(respuesta:str, mensaje_error):
     if respuesta.lower() not in ["s", "n"]:
         print(f"{mensaje_error}: Debe ingresar 's' para sí o 'n' para no.")
         return False
@@ -57,3 +57,4 @@ def validar_formato_fecha(fecha, mensaje_error):
         print(f"{mensaje_error}: Debe ingresar una fecha en el formato YYYY-MM-DD.")
         return False
     return True
+

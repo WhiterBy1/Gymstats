@@ -1,17 +1,11 @@
 import csv
 import os
 import pandas as pd
-from validation.validaciones import (
-    validar_cadena_no_vacia,
-    validar_rango,
-    validar_usuario,
-    validar_ejercicio,
-)
+
 
 # Función para calcular un nuevo ID basado en los existentes
 def calcular_id(table: list):
     return max([int(row["id"]) for row in table], default=0) + 1
-
 
 # Función para escribir en un archivo CSV
 def escribir_csv(filename, data):

@@ -1,60 +1,125 @@
-# Función para agregar una nueva planificación
 import json
 from validation.const import PLANIFICATION_CONTENT_FILE, PLANIFICATIONS_FILE
 from db.dbFuntions import incentar_db, obtener_columnas
-from validation.validaciones import validar_ejercicio, validar_usuario, permitir_entre
+from validation.validaciones import (
+    validar_ejercicio,
+    validar_usuario,
+    validar_formato_fecha,
+    validar_entero,
+    validar_cadena_no_vacia,
+    validar_rango,
+    validar_si_no
+)
 
+# Función para solicitar entrada con validación y reintentos
+def solicitar_entrada(prompt, validacion, mensaje_error):
+    while True:
+        try:
+            valor = input(prompt)
+            if validacion(valor, mensaje_error):
+                return valor
+        except Exception as e:
+            print(f"Error inesperado: {e}")
+        print("Por favor, intente nuevamente.\n")
 
-#Funcion para agregar planificaciones
+# Función para agregar planificaciones
 def AgregarPlanificacion():
     print("\n--- Agregar Nueva Planificación ---")
-    date = input("Ingrese la fecha de la planificación (YYYY-MM-DD): ")
-    user_id = input("Ingrese el ID del usuario: ")
 
-    # Validar si el usuario existe
-    if not validar_usuario(user_id):
-        print("El ID de usuario no existe. Inténtelo de nuevo.\n")
-        return
+    # Validar fecha
+    date = solicitar_entrada(
+        "Ingrese la fecha de la planificación (YYYY-MM-DD): ",
+        lambda x, _: validar_formato_fecha(x, "Error en la fecha"),
+        "La fecha no es válida."
+    )
 
-    routine_name = input("Ingrese el nombre de la rutina: ")
-    incentar_db(PLANIFICATIONS_FILE, ["date","user_id", "status", "routine_name"], [date, user_id, False, routine_name])
-    
+    # Validar usuario
+    user_id = solicitar_entrada(
+        "Ingrese el ID del usuario: ",
+        lambda x, _: validar_usuario(x),
+        "El ID de usuario no existe."
+    )
+
+    # Validar nombre de rutina
+    routine_name = solicitar_entrada(
+        "Ingrese el nombre de la rutina: ",
+        lambda x, _: validar_cadena_no_vacia(x, "Error en el nombre de rutina"),
+        "El nombre de la rutina no puede estar vacío."
+    )
+
+    incentar_db(
+        PLANIFICATIONS_FILE,
+        ["date", "user_id", "status", "routine_name"],
+        [date, user_id, False, routine_name]
+    )
     print("¡Planificación agregada exitosamente!\n")
 
-    # Preguntar si desea agregar contenido a la planificación
-    opcion = input("¿Desea agregar contenido a esta planificación? (s/n): ").lower()
-    if opcion == 's':
+    # Preguntar si desea agregar contenido
+    opcion = solicitar_entrada(
+        "¿Desea agregar contenido a esta planificación? (s/n): ",
+        lambda x, _: validar_si_no(x, "Error en la respuesta"),
+        "Debe ingresar 's' para sí o 'n' para no."
+    )
+
+    if opcion.lower() == 's':
         AgregarContenido()
 
 # Función para agregar contenido a una planificación
 def AgregarContenido():
-    planification_id = input("Ingrese el ID de la planificación: ")
-    print("\n--- Agregar Contenido a la Planificación ---")
+    planification_id = solicitar_entrada(
+        "Ingrese el ID de la planificación: ",
+        lambda x, _: validar_entero(x, "Error en el ID de planificación"),
+        "El ID de la planificación debe ser un número entero."
+    )
 
+    print("\n--- Agregar Contenido a la Planificación ---")
     while True:
-        exercise_id = input("Ingrese el ID del ejercicio (0 para salir): ")
+        exercise_id = solicitar_entrada(
+            "Ingrese el ID del ejercicio (0 para salir): ",
+            lambda x, _: x == "0" or validar_ejercicio(x),
+            "El ID del ejercicio no existe."
+        )
+
         if exercise_id == "0":
             break
 
-        if not validar_ejercicio(exercise_id):
-            print("El ID del ejercicio no existe. Inténtelo de nuevo.")
-            continue
-
         set_detail = construir_set_detail()
-        incentar_db(PLANIFICATION_CONTENT_FILE, ["planification_id","exercice_id", "set_detail"], [planification_id, exercise_id, set_detail])
-        
+        incentar_db(
+            PLANIFICATION_CONTENT_FILE,
+            ["planification_id", "exercise_id", "set_detail"],
+            [planification_id, exercise_id, set_detail]
+        )
         print("¡Contenido agregado exitosamente!\n")
 
 # Función para construir un set_detail (JSON) detallado
 def construir_set_detail():
-    series = int(input("Ingrese la cantidad de series: "))
-    contenido = []
+    series = int(solicitar_entrada(
+        "Ingrese la cantidad de series: ",
+        lambda x, _: validar_entero(x, "Error en la cantidad de series"),
+        "El número de series debe ser un entero válido."
+    ))
 
+    contenido = []
     for i in range(1, series + 1):
         print(f"\n--- Serie {i} ---")
-        peso_plan = float(input("Ingrese el peso planificado (kg): "))
-        repeticiones = int(input("Ingrese el número de repeticiones: "))
-        rpe = int(input("Ingrese el RPE (1-10): "))
+
+        peso_plan = float(solicitar_entrada(
+            "Ingrese el peso planificado (kg): ",
+            lambda x, _: validar_rango(x, 0, 1000, "Error en el peso planificado"),
+            "El peso debe ser un valor numérico entre 0 y 1000."
+        ))
+
+        repeticiones = int(solicitar_entrada(
+            "Ingrese el número de repeticiones: ",
+            lambda x, _: validar_entero(x, "Error en las repeticiones"),
+            "El número de repeticiones debe ser un entero válido."
+        ))
+
+        rpe = int(solicitar_entrada(
+            "Ingrese el RPE (1-10): ",
+            lambda x, _: validar_rango(x, 1, 10, "Error en el RPE"),
+            "El RPE debe estar entre 1 y 10."
+        ))
 
         contenido.append({
             "numero": i,
