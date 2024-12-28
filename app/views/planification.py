@@ -17,7 +17,7 @@ def AgregarPlanificacion():
         return
 
     routine_name = input("Ingrese el nombre de la rutina: ")
-    Planification_id = incentar_db(PLANIFICATIONS_FILE, ["date","user_id", "status", "routine_name"], [date, user_id, False, routine_name],IdNeeded=True)
+    incentar_db(PLANIFICATIONS_FILE, ["date","user_id", "status", "routine_name"], [date, user_id, False, routine_name])
     
     print("¡Planificación agregada exitosamente!\n")
 
