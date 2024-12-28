@@ -32,35 +32,19 @@ def leer_csv(filename) -> list:
         return list(reader)
 
 
-
-def incentar_db(filename, columns: list[str], values: list, IdNeeded: bool = False):
-    # Leer datos existentes
+#Funcion para incertar en la base de datos
+def incentar_db(filename, columns:list[str], values:list, IdNeeded:bool=False):
     table = leer_csv(filename)
     new_id = calcular_id(table)
-
-    # Validaciones antes de insertar
-    for column, value in zip(columns, values):
-        validar_cadena_no_vacia(value, column)  # Validar que no esté vacío
-        if column == "rpe":  # Validar rango para el RPE
-            validar_rango(int(value), 1, 10, "RPE")
-        elif column == "user_id":  # Validar que el usuario exista
-            if not validar_usuario(int(value)):
-                raise ValueError(f"El usuario con ID {value} no existe.")
-        elif column == "exercise_id":  # Validar que el ejercicio exista
-            if not validar_ejercicio(int(value)):
-                raise ValueError(f"El ejercicio con ID {value} no existe.")
-
-    # Crear nueva fila e insertar
     row = {'id': new_id}
     for column, value in zip(columns, values):
         row[column] = value
     table.append(row)
     escribir_csv(filename, table)
-
     if IdNeeded:
         return new_id
 
-
+#Vizualizacion de  columnas usando dataframes
 def obtener_columnas(filename, columns: list[str]):
     df = pd.read_csv(filename, encoding="latin1")
     dfinfo = df[columns]
