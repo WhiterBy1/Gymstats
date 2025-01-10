@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Rat</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <nav>
+        <h1 id="titu">GymRats</h1>
+        <ul>
+            <div class="co">
+                <li class="nav" onclick="changeContent('planeacion', this)"><h1>Planeación</h1></li>
+            </div>
+            <div class="co">
+                <li class="nav" onclick="changeContent('entrenamiento', this)"><h1>Entrenamiento actual</h1></li>
+            </div>
+            <div class="co">
+                <li class="nav" onclick="changeContent('estadisticas', this)"><h1>Estadísticas</h1></li>
+            </div>
+        </ul>
+    </nav>
+    <main id="main-content">
+        <h2>Bienvenido a GymRats</h2>
+        <p>Selecciona una opción del menú para empezar.</p>
+    </main>
+    <script src="java.js"></script>
+</body>
+</html>
