@@ -104,27 +104,25 @@ El backend de Gymstats está construido con FastAPI para gestionar la lógica de
 | Campo           | Tipo          | Descripción                                  |
 |------------------|---------------|----------------------------------------------|
 | `id`            | UUID          | Identificador único del usuario.            |
-| `email`         | String        | Email del usuario, único.                   |
-| `password_hash` | String        | Contraseña encriptada.                      |
-| `user_name`     | String        | Nombre del usuario.                         |
+| `password` | String        | Contraseña encriptada.                      |
+| `usuario`     | String        | Nombre del usuario.                         |
 
 ### **2. Tabla: Planificaciones**
 | Campo           | Tipo          | Descripción                                  |
 |------------------|---------------|----------------------------------------------|
 | `id`            | UUID          | Identificador único de la planificación.    |
-| `user_id`       | UUID          | Relación con el usuario.                    |
-| `fecha`         | Date          | Fecha de la planificación.                  |
-| `nombre`        | String        | Nombre de la planificación.                 |
-| `estado`        | String        | Pendiente o completada.                     |
+| `id_user`       | UUID          | Relación con el usuario.                    |
+| `date`         | Date          | Fecha de la planificación.                  |
+| `routine_name`        | String        | Nombre de la planificación.           |
+| `status`        | String        | Pendiente o completada.                     |
 
 ### **3. Tabla: Ejercicios**
 | Campo           | Tipo          | Descripción                                  |
 |------------------|---------------|----------------------------------------------|
 | `id`            | UUID          | Identificador único del ejercicio.          |
-| `user_id`       | UUID          | Relación con el usuario (si es personalizado).|
-| `nombre`        | String        | Nombre del ejercicio.                       |
-| `categoría`     | String        | Grupo muscular al que afecta.               |
-| `importancia`   | Integer       | Nivel de aislamiento (opcional).            |
+| `name`        | String        | Nombre del ejercicio.                       |
+| `category`     | String        | Grupo muscular al que afecta.               |
+| `importance`   | Integer       | Nivel de aislamiento (opcional).            |
 
 ### **4. Tabla: Contenido de planificacion**
 | Campo           | Tipo          | Descripción                                  |
